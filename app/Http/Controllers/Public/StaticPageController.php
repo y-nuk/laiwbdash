@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactAutoReplyMail;
+use App\Mail\ContactReceivedMail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -36,22 +38,16 @@ class StaticPageController extends Controller
             'message' => ['required', 'string', 'max:2000'],
         ]);
 
-        // 簡易：log driver でもメール内容が storage/logs/laravel.log に記録される
-        // 本番では Xserver SMTP 経由で運営宛 + 自動返信を送る
-        Mail::raw(
-            "新しいお問い合わせがあります。\n\n" .
-            "種別：{$validated['category']}\n" .
-            "お名前：{$validated['name']}\n" .
-            "会社名：" . ($validated['company'] ?? '—') . "\n" .
-            "メール：{$validated['email']}\n" .
-            "電話：" . ($validated['phone'] ?? '—') . "\n" .
-            "内容：\n{$validated['message']}\n",
-            function ($mail) use ($validated) {
-                $mail->to(config('mail.from.address', 'contact@laiweb-dash.com'))
-                    ->subject('【laiweb-dash お問い合わせ】' . $validated['name']);
-            }
-        );
+        // 1. 運営宛：受信通知（Reply-To に送信者メアド設定済）
+        Mail::to(config('mail.from.address', 'contact@laiweb-dash.com'))
+            ->send(new ContactReceivedMail($validated));
 
-        return back()->with('status', 'お問い合わせを送信しました。通常 2 営業日以内にご返信いたします。');
+        // 2. 送信者宛：自動返信
+        Mail::to($validated['email'])
+            ->send(new ContactAutoReplyMail($validated));
+
+        return back()->with('status',
+            'お問い合わせを送信しました。受付確認のメールを ' . $validated['email'] . ' 宛にお送りしています。'
+        );
     }
 }
