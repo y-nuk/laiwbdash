@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ReportScheduleController as AdminReportScheduleCo
 use App\Http\Controllers\Admin\StoreController as AdminStoreController;
 use App\Http\Controllers\Admin\StoreGbpInfoController as AdminStoreGbpInfoController;
 use App\Http\Controllers\Admin\StoreRankingController as AdminStoreRankingController;
+use App\Http\Controllers\Admin\AlertController as AdminAlertController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
 use App\Http\Controllers\Client\StoreController as ClientStoreController;
@@ -75,6 +76,11 @@ Route::middleware(['auth', 'role:admin,staff'])
         Route::resource('report-schedules', AdminReportScheduleController::class)->except(['destroy']);
         Route::delete('report-schedules/{report_schedule}', [AdminReportScheduleController::class, 'destroy'])->name('report-schedules.destroy');
         Route::post('report-schedules/{report_schedule}/toggle', [AdminReportScheduleController::class, 'toggle'])->name('report-schedules.toggle');
+
+        // 順位アラート
+        Route::resource('alerts', AdminAlertController::class)->except(['destroy']);
+        Route::delete('alerts/{alert}', [AdminAlertController::class, 'destroy'])->name('alerts.destroy');
+        Route::post('alerts/{alert}/toggle', [AdminAlertController::class, 'toggle'])->name('alerts.toggle');
 
         // ユーザー管理（招待）
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');

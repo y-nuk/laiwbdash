@@ -65,6 +65,11 @@
                                 <i class="bi bi-envelope-paper"></i> レポート配信予約
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.alerts.*') ? 'active' : '' }}" href="{{ route('admin.alerts.index') }}">
+                                <i class="bi bi-bell"></i> 順位アラート
+                            </a>
+                        </li>
                     @else
                         {{-- クライアント側メニュー --}}
                         <li class="nav-item">
