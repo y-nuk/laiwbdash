@@ -99,7 +99,7 @@ Route::middleware(['auth', 'role:client'])
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // profile.destroy は廃止（自社管理ツールではアカウント削除は管理者経由）
 });
 
 require __DIR__.'/auth.php';
