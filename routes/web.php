@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CompetitorController as AdminCompetitorController
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\KeywordController as AdminKeywordController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
+use App\Http\Controllers\Admin\ReportScheduleController as AdminReportScheduleController;
 use App\Http\Controllers\Admin\StoreController as AdminStoreController;
 use App\Http\Controllers\Admin\StoreGbpInfoController as AdminStoreGbpInfoController;
 use App\Http\Controllers\Admin\StoreRankingController as AdminStoreRankingController;
@@ -69,6 +70,11 @@ Route::middleware(['auth', 'role:admin,staff'])
         Route::get('reports/output', [AdminReportController::class, 'create'])->name('reports.output');
         Route::post('reports/preview', [AdminReportController::class, 'preview'])->name('reports.preview');
         Route::post('reports/download', [AdminReportController::class, 'download'])->name('reports.download');
+
+        // レポート配信予約
+        Route::resource('report-schedules', AdminReportScheduleController::class)->except(['destroy']);
+        Route::delete('report-schedules/{report_schedule}', [AdminReportScheduleController::class, 'destroy'])->name('report-schedules.destroy');
+        Route::post('report-schedules/{report_schedule}/toggle', [AdminReportScheduleController::class, 'toggle'])->name('report-schedules.toggle');
 
         // ユーザー管理（招待）
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');

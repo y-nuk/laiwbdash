@@ -61,7 +61,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#"><i class="bi bi-envelope-paper"></i> レポート配信予約</a>
+                            <a class="nav-link {{ request()->routeIs('admin.report-schedules.*') ? 'active' : '' }}" href="{{ route('admin.report-schedules.index') }}">
+                                <i class="bi bi-envelope-paper"></i> レポート配信予約
+                            </a>
                         </li>
                     @else
                         {{-- クライアント側メニュー --}}

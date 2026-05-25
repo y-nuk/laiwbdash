@@ -119,6 +119,11 @@ class Store extends Model
         return $this->hasMany(Alert::class);
     }
 
+    public function reportSchedules(): HasMany
+    {
+        return $this->hasMany(ReportSchedule::class);
+    }
+
     /** 曜日別営業時間を取得（保存形式：['mon' => ['closed' => bool, 'open' => 'HH:MM', 'close' => 'HH:MM'], ...]）*/
     public function getHoursForDay(string $day): array
     {
