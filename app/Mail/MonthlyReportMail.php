@@ -29,6 +29,14 @@ class MonthlyReportMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: new Address(
+                config('mail.report_from.address'),
+                config('mail.report_from.name'),
+            ),
+            replyTo: [new Address(
+                config('mail.report_reply_to.address'),
+                config('mail.report_reply_to.name'),
+            )],
             to: array_map(fn ($email) => new Address($email), $this->schedule->recipientList()),
             subject: $this->schedule->subject,
         );

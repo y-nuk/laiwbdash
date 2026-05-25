@@ -115,4 +115,20 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    /*
+    | レポート配信メール専用の From / Reply-To
+    | 他のメール（招待 / お問い合わせ）と分離して、MEO レポート用の差出人を明示する。
+    | 送信ドメインは SMTP 認証ドメインと一致させること（laiweb-dash.com）。
+    */
+
+    'report_from' => [
+        'address' => env('MAIL_REPORT_FROM_ADDRESS', 'meo@laiweb-dash.com'),
+        'name' => env('MAIL_REPORT_FROM_NAME', 'laiweb-dash MEO レポート'),
+    ],
+
+    'report_reply_to' => [
+        'address' => env('MAIL_REPORT_REPLY_TO', 'support@laiweb.jp'),
+        'name' => env('MAIL_REPORT_REPLY_TO_NAME', 'Laiweb サポート'),
+    ],
+
 ];
