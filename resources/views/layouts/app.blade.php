@@ -56,10 +56,12 @@
                         </li>
                         <li class="nav-item mt-3 small text-muted px-3" style="font-size: 0.75rem;">レポート</li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#"><i class="bi bi-bar-chart"></i> 順位レポート</a>
+                            <a class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.output') }}">
+                                <i class="bi bi-file-earmark-pdf"></i> レポート出力
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#"><i class="bi bi-file-earmark-pdf"></i> レポート配信</a>
+                            <a class="nav-link disabled" href="#"><i class="bi bi-envelope-paper"></i> レポート配信予約</a>
                         </li>
                     @else
                         {{-- クライアント側メニュー --}}

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CompanyController as AdminCompanyController;
 use App\Http\Controllers\Admin\CompetitorController as AdminCompetitorController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\KeywordController as AdminKeywordController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\StoreController as AdminStoreController;
 use App\Http\Controllers\Admin\StoreGbpInfoController as AdminStoreGbpInfoController;
 use App\Http\Controllers\Admin\StoreRankingController as AdminStoreRankingController;
@@ -63,6 +64,11 @@ Route::middleware(['auth', 'role:admin,staff'])
             ->name('stores.competitors.store');
         Route::delete('stores/{store}/competitors/{competitor}', [AdminCompetitorController::class, 'destroy'])
             ->name('stores.competitors.destroy');
+
+        // レポート出力（即時 DL + プレビュー）
+        Route::get('reports/output', [AdminReportController::class, 'create'])->name('reports.output');
+        Route::post('reports/preview', [AdminReportController::class, 'preview'])->name('reports.preview');
+        Route::post('reports/download', [AdminReportController::class, 'download'])->name('reports.download');
 
         // ユーザー管理（招待）
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
