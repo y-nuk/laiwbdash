@@ -30,6 +30,21 @@
                    class="form-control" required autocomplete="new-password">
         </div>
 
+        <div class="form-check mb-4">
+            <input class="form-check-input @error('terms') is-invalid @enderror"
+                   type="checkbox" name="terms" id="terms" value="1"
+                   {{ old('terms') ? 'checked' : '' }} required>
+            <label class="form-check-label small" for="terms">
+                <a href="https://laiweb.jp/terms/" target="_blank" rel="noopener">Laiweb 利用規約</a>、
+                <a href="https://laiweb.jp/terms/laiweb-dash/" target="_blank" rel="noopener">laiweb-dash 個別規定</a>、
+                <a href="https://laiweb.jp/privacy/" target="_blank" rel="noopener">プライバシーポリシー</a>
+                に同意します
+            </label>
+            @error('terms')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
+        </div>
+
         <div class="d-grid">
             <button type="submit" class="btn btn-primary">
                 <i class="bi bi-check-lg"></i> パスワードを設定してログイン

@@ -22,6 +22,16 @@
 
 ---
 
+**ご利用にあたって**
+
+パスワード設定の際に、以下の規約・ポリシーへのご同意をお願いしております。事前にご確認いただけますと幸いです。
+
+- [Laiweb 利用規約](https://laiweb.jp/terms/)
+- [laiweb-dash 個別規定](https://laiweb.jp/terms/laiweb-dash/)
+- [プライバシーポリシー](https://laiweb.jp/privacy/)
+
+---
+
 引き続きどうぞよろしくお願いいたします。
 
 {{ config('app.name') }} 運営事務局

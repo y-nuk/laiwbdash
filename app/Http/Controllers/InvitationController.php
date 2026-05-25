@@ -28,6 +28,9 @@ class InvitationController extends Controller
 
         $request->validate([
             'password' => ['required', 'confirmed', Password::defaults()],
+            'terms' => ['accepted'],
+        ], [
+            'terms.accepted' => '利用規約・プライバシーポリシーへの同意が必要です。',
         ]);
 
         $user->forceFill([
