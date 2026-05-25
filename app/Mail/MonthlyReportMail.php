@@ -45,7 +45,7 @@ class MonthlyReportMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.monthly-report',
+            markdown: 'emails.monthly-report',
             with: [
                 'body' => $this->schedule->body ?? '',
                 'storeName' => $this->schedule->store->name,

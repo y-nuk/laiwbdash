@@ -39,7 +39,7 @@ class RankingDropAlertMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.ranking-alert',
+            markdown: 'emails.ranking-alert',
             with: [
                 'alertName' => $this->alert->name,
                 'alertType' => Alert::TYPES[$this->alert->alert_type] ?? $this->alert->alert_type,
