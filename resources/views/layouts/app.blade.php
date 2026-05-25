@@ -70,6 +70,11 @@
                                 <i class="bi bi-bell"></i> 順位アラート
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.surveys.*') ? 'active' : '' }}" href="{{ route('admin.surveys.index') }}">
+                                <i class="bi bi-qr-code"></i> アンケート
+                            </a>
+                        </li>
                     @else
                         {{-- クライアント側メニュー --}}
                         <li class="nav-item">

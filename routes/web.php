@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\StoreController as AdminStoreController;
 use App\Http\Controllers\Admin\StoreGbpInfoController as AdminStoreGbpInfoController;
 use App\Http\Controllers\Admin\StoreRankingController as AdminStoreRankingController;
 use App\Http\Controllers\Admin\AlertController as AdminAlertController;
+use App\Http\Controllers\Admin\SurveyController as AdminSurveyController;
+use App\Http\Controllers\Public\SurveyController as PublicSurveyController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
 use App\Http\Controllers\Client\StoreController as ClientStoreController;
@@ -82,6 +84,10 @@ Route::middleware(['auth', 'role:admin,staff'])
         Route::delete('alerts/{alert}', [AdminAlertController::class, 'destroy'])->name('alerts.destroy');
         Route::post('alerts/{alert}/toggle', [AdminAlertController::class, 'toggle'])->name('alerts.toggle');
 
+        // アンケート
+        Route::resource('surveys', AdminSurveyController::class);
+        Route::get('surveys/{survey}/qr', [AdminSurveyController::class, 'qr'])->name('surveys.qr');
+
         // ユーザー管理（招待）
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
         Route::post('users/invite', [AdminUserController::class, 'invite'])->name('users.invite');
@@ -101,6 +107,12 @@ Route::prefix('/')->name('public.')->group(function () {
     Route::get('/terms', [StaticPageController::class, 'terms'])->name('terms');
     Route::get('/contact', [StaticPageController::class, 'contact'])->name('contact');
     Route::post('/contact', [StaticPageController::class, 'sendContact'])->name('contact.send');
+
+    // アンケート（公開、QR からアクセス）
+    Route::get('/survey/{token}', [PublicSurveyController::class, 'show'])->name('survey.show');
+    Route::post('/survey/{token}', [PublicSurveyController::class, 'store'])->name('survey.store');
+    Route::get('/survey/{token}/high', [PublicSurveyController::class, 'high'])->name('survey.high');
+    Route::get('/survey/{token}/thanks', [PublicSurveyController::class, 'thanks'])->name('survey.thanks');
 });
 
 // ----- Client（クライアント側、閲覧のみ） -----
