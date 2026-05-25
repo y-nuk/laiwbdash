@@ -5,6 +5,15 @@
 
 // ----- フォント（Google Fonts は head から読む） -----
 
+// Reef フォント（ブランドロゴ専用）
+@font-face {
+    font-family: 'Reef';
+    src: url('/fonts/Reef.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 // ----- Bootstrap 5 変数の上書き（必要なら） -----
 $primary: #0d6efd;
 $body-bg: #f5f7fa;
@@ -69,3 +78,38 @@ body {
 
 .kpi-card .kpi-trend.up { color: #10b981; }
 .kpi-card .kpi-trend.down { color: #ef4444; }
+
+// ----- ブランドロゴ（Laiweb dash） -----
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    line-height: 1;
+}
+
+.brand-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.brand-text {
+    font-family: 'Reef', $font-family-sans-serif;
+    font-size: 1.5rem;
+    color: #1f2937;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+// サイズバリエーション
+.brand--sm .brand-icon { width: 24px; height: 24px; }
+.brand--sm .brand-text { font-size: 1.125rem; }
+
+.brand--lg .brand-icon { width: 48px; height: 48px; }
+.brand--lg .brand-text { font-size: 2rem; }
+
+.brand--xl .brand-icon { width: 64px; height: 64px; }
+.brand--xl .brand-text { font-size: 2.5rem; }

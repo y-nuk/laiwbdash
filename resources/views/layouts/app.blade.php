@@ -11,6 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/favicon-16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/apple-touch-icon.png') }}">
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -18,10 +22,11 @@
         {{-- ----- サイドバー ----- --}}
         <aside class="sidebar d-none d-md-block flex-shrink-0" style="width: 240px;">
             <div class="p-3">
-                <a href="{{ route('dashboard') }}" class="text-decoration-none">
-                    <h2 class="h5 fw-bold text-primary mb-0">laiweb-dash</h2>
+                <a href="{{ route('dashboard') }}" class="brand brand--sm">
+                    <img src="{{ asset('img/laiweb-dash-icon.png') }}" alt="" class="brand-icon">
+                    <span class="brand-text">Laiweb dash</span>
                 </a>
-                <p class="text-muted small mb-0" style="font-size: 0.75rem;">多店舗 MEO 運用</p>
+                <p class="text-muted small mb-0 mt-1" style="font-size: 0.7rem;">多店舗 MEO 運用</p>
             </div>
 
             <ul class="nav flex-column px-2">
@@ -115,6 +120,8 @@
             <main class="flex-grow-1 p-3 p-md-4">
                 {{ $slot }}
             </main>
+
+            @include('partials.footer')
         </div>
     </div>
 </body>
