@@ -34,7 +34,16 @@ class Company extends Model
         'industry',
         'status',
         'logo_path',
+        'admin_message',
+        'admin_message_updated_at',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'admin_message_updated_at' => 'datetime',
+        ];
+    }
 
     public function agency(): BelongsTo
     {

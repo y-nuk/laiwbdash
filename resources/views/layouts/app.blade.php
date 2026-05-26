@@ -89,7 +89,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#"><i class="bi bi-bar-chart"></i> 順位レポート</a>
+                            <a class="nav-link {{ request()->routeIs('client.reports.*') ? 'active' : '' }}" href="{{ route('client.reports.index') }}">
+                                <i class="bi bi-file-earmark-pdf"></i> 月次レポート
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('client.surveys.*') ? 'active' : '' }}" href="{{ route('client.surveys.index') }}">
+                                <i class="bi bi-chat-square-text"></i> アンケート結果
+                            </a>
                         </li>
                     @endif
                 @endauth

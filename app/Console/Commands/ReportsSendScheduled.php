@@ -12,6 +12,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class ReportsSendScheduled extends Command
@@ -95,6 +96,10 @@ class ReportsSendScheduled extends Command
 
         $filename = "monthly-report_{$store->company->name}_{$store->name}_{$reportMonth->format('Ym')}.pdf";
 
+        // PDF を storage に保存（クライアントの過去レポート閲覧用）
+        $storagePath = "reports/{$store->company_id}/{$store->id}/{$reportMonth->format('Ym')}.pdf";
+        Storage::disk('local')->put($storagePath, $pdfBinary);
+
         Mail::send(new MonthlyReportMail($schedule, $pdfBinary, $filename));
 
         // 履歴を reports テーブルに記録
@@ -104,6 +109,7 @@ class ReportsSendScheduled extends Command
             'type' => Report::TYPE_MONTHLY,
             'period_start' => $data->periodStart(),
             'period_end' => $data->periodEnd(),
+            'file_path' => $storagePath,
             'sent_at' => now(),
         ]);
 

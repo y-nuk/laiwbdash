@@ -19,6 +19,22 @@
             会社情報が紐づいていません。運営担当者にお問い合わせください。
         </div>
     @else
+        @if ($company->admin_message)
+            <div class="card border-0 shadow-sm mb-4" style="border-left: 4px solid #0d6efd !important;">
+                <div class="card-body p-3">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h2 class="h6 fw-bold mb-0 text-primary">
+                            <i class="bi bi-chat-quote"></i> 担当者からのお知らせ
+                        </h2>
+                        @if ($company->admin_message_updated_at)
+                            <span class="small text-muted">{{ $company->admin_message_updated_at->isoFormat('Y 年 M 月 D 日') }} 更新</span>
+                        @endif
+                    </div>
+                    <div class="small" style="white-space: pre-wrap;">{{ $company->admin_message }}</div>
+                </div>
+            </div>
+        @endif
+
         {{-- KPI カード --}}
         <div class="row g-3 mb-4">
             <div class="col-6 col-md-3">

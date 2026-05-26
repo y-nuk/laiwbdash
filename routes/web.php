@@ -16,7 +16,9 @@ use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Public\SurveyController as PublicSurveyController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
+use App\Http\Controllers\Client\ReportController as ClientReportController;
 use App\Http\Controllers\Client\StoreController as ClientStoreController;
+use App\Http\Controllers\Client\SurveyController as ClientSurveyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProfileController;
@@ -135,6 +137,14 @@ Route::middleware(['auth', 'role:client'])
         Route::get('/dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
         Route::get('/stores/{store}', [ClientStoreController::class, 'show'])->name('stores.show');
         Route::get('/stores/{store}/rankings', [ClientStoreController::class, 'rankings'])->name('stores.rankings');
+
+        // 過去レポート閲覧
+        Route::get('/reports', [ClientReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/{report}/download', [ClientReportController::class, 'download'])->name('reports.download');
+
+        // アンケート結果閲覧
+        Route::get('/surveys', [ClientSurveyController::class, 'index'])->name('surveys.index');
+        Route::get('/surveys/{survey}', [ClientSurveyController::class, 'show'])->name('surveys.show');
     });
 
 // ----- 全 role 共通 -----

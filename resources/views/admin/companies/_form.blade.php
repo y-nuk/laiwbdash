@@ -80,6 +80,16 @@
         <label class="form-label small fw-semibold">住所</label>
         <input type="text" name="address" value="{{ old('address', $company->address) }}" class="form-control">
     </div>
+
+    <div class="col-12">
+        <label class="form-label small fw-semibold">
+            <i class="bi bi-chat-quote text-primary"></i> クライアント向けメッセージ <span class="text-muted fw-normal">（任意）</span>
+        </label>
+        <textarea name="admin_message" rows="3" class="form-control" placeholder="例：5 月のレポートを送信しました。順位が好調ですので、引き続き投稿を続けていきましょう。">{{ old('admin_message', $company->admin_message) }}</textarea>
+        <div class="form-text small">
+            ここに入力した内容は <strong>クライアントのダッシュボード</strong> に「担当者からのお知らせ」として表示されます。
+        </div>
+    </div>
 </div>
 
 <div class="d-flex justify-content-between mt-4">

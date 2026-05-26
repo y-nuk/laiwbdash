@@ -157,7 +157,7 @@ class CompanyController extends Controller
 
     private function validateData(Request $request): array
     {
-        return $request->validate([
+        $validated = $request->validate([
             'agency_id' => ['required', 'integer', 'exists:agencies,id'],
             'name' => ['required', 'string', 'max:120'],
             'kana' => ['nullable', 'string', 'max:120'],
@@ -169,6 +169,13 @@ class CompanyController extends Controller
             'address' => ['nullable', 'string', 'max:255'],
             'industry' => ['nullable', 'string', 'max:80'],
             'status' => ['required', 'in:' . implode(',', array_keys(Company::STATUSES))],
+            'admin_message' => ['nullable', 'string', 'max:2000'],
         ]);
+
+        // admin_message が変更されたら更新日時を記録
+        if ($request->filled('admin_message')) {
+            $validated['admin_message_updated_at'] = now();
+        }
+        return $validated;
     }
 }
