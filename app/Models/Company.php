@@ -23,6 +23,7 @@ class Company extends Model
 
     protected $fillable = [
         'agency_id',
+        'responsible_user_id',
         'name',
         'kana',
         'contact_person_name',
@@ -48,6 +49,16 @@ class Company extends Model
     public function agency(): BelongsTo
     {
         return $this->belongsTo(Agency::class);
+    }
+
+    public function responsibleUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'responsible_user_id');
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class)->latest('occurred_at');
     }
 
     public function stores(): HasMany

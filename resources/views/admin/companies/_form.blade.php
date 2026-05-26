@@ -28,6 +28,19 @@
         @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
+    <div class="col-md-6">
+        <label class="form-label small fw-semibold">担当者（社内）</label>
+        <select name="responsible_user_id" class="form-select">
+            <option value="">未割当</option>
+            @foreach ($staffUsers ?? [] as $u)
+                <option value="{{ $u->id }}" @selected(old('responsible_user_id', $company->responsible_user_id) == $u->id)>
+                    {{ $u->name }}（{{ \App\Models\User::ROLES[$u->role] ?? $u->role }}）
+                </option>
+            @endforeach
+        </select>
+        <div class="form-text small">この会社のメイン担当 admin/staff。</div>
+    </div>
+
     <div class="col-md-8">
         <label class="form-label small fw-semibold">会社名 <span class="text-danger">*</span></label>
         <input type="text" name="name" value="{{ old('name', $company->name) }}" required class="form-control @error('name') is-invalid @enderror">

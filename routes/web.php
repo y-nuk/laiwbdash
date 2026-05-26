@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ReportScheduleController as AdminReportScheduleCo
 use App\Http\Controllers\Admin\StoreController as AdminStoreController;
 use App\Http\Controllers\Admin\StoreGbpInfoController as AdminStoreGbpInfoController;
 use App\Http\Controllers\Admin\StoreRankingController as AdminStoreRankingController;
+use App\Http\Controllers\Admin\ActivityController as AdminActivityController;
 use App\Http\Controllers\Admin\AlertController as AdminAlertController;
 use App\Http\Controllers\Admin\GbpConnectController as AdminGbpConnectController;
 use App\Http\Controllers\Admin\SurveyController as AdminSurveyController;
@@ -94,6 +95,12 @@ Route::middleware(['auth', 'role:admin,staff'])
 
         // GBP 連携（管理）
         Route::get('gbp/connect', [AdminGbpConnectController::class, 'index'])->name('gbp.connect');
+
+        // 活動記録
+        Route::get('activities', [AdminActivityController::class, 'index'])->name('activities.index');
+        Route::post('companies/{company}/activities', [AdminActivityController::class, 'store'])->name('companies.activities.store');
+        Route::patch('activities/{activity}/toggle-follow-up', [AdminActivityController::class, 'toggleFollowUp'])->name('activities.toggle-follow-up');
+        Route::delete('activities/{activity}', [AdminActivityController::class, 'destroy'])->name('activities.destroy');
 
         // ユーザー管理（招待）
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');

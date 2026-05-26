@@ -33,6 +33,17 @@
                 <dt class="col-sm-3 text-muted">担当代理店</dt>
                 <dd class="col-sm-9">{{ $company->agency->name ?? '—' }}</dd>
 
+                <dt class="col-sm-3 text-muted">担当者（社内）</dt>
+                <dd class="col-sm-9">
+                    @if ($company->responsibleUser)
+                        <i class="bi bi-person-check text-primary"></i>
+                        {{ $company->responsibleUser->name }}
+                        <span class="text-muted small">（{{ \App\Models\User::ROLES[$company->responsibleUser->role] ?? $company->responsibleUser->role }}）</span>
+                    @else
+                        <span class="text-muted">未割当</span>
+                    @endif
+                </dd>
+
                 <dt class="col-sm-3 text-muted">ステータス</dt>
                 <dd class="col-sm-9">
                     @php($s = $company->status)
@@ -131,6 +142,10 @@
                 </ul>
             @endif
         </div>
+    </div>
+
+    <div class="mb-3">
+        @include('admin.activities._panel', ['activities' => $company->activities()->with('user')->take(20)->get()])
     </div>
 
     <div class="card border-0 shadow-sm">

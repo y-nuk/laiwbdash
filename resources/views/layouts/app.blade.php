@@ -54,6 +54,11 @@
                                 <i class="bi bi-people"></i> ユーザー管理
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.activities.*') ? 'active' : '' }}" href="{{ route('admin.activities.index') }}">
+                                <i class="bi bi-clock-history"></i> 活動履歴
+                            </a>
+                        </li>
                         <li class="nav-item mt-3 small text-muted px-3" style="font-size: 0.75rem;">レポート</li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.output') }}">

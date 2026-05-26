@@ -19,9 +19,10 @@ class CompanyController extends Controller
     {
         $q = trim((string) $request->input('q', ''));
         $status = $request->input('status', '');
+        $responsible = $request->input('responsible', ''); // 'mine' = 自分の担当のみ
 
         $companies = Company::query()
-            ->with('agency')
+            ->with(['agency', 'responsibleUser'])
             ->withCount('stores')
             ->when($q !== '', fn ($query) => $query->where(function ($qb) use ($q) {
                 $qb->where('name', 'like', "%{$q}%")
@@ -31,6 +32,8 @@ class CompanyController extends Controller
             }))
             ->when(in_array($status, array_keys(Company::STATUSES), true),
                 fn ($query) => $query->where('status', $status))
+            ->when($responsible === 'mine',
+                fn ($query) => $query->where('responsible_user_id', $request->user()->id))
             ->orderByDesc('created_at')
             ->paginate(30)
             ->withQueryString();
@@ -39,6 +42,7 @@ class CompanyController extends Controller
             'companies' => $companies,
             'q' => $q,
             'status' => $status,
+            'responsible' => $responsible,
         ]);
     }
 
@@ -47,6 +51,8 @@ class CompanyController extends Controller
         return view('admin.companies.create', [
             'company' => new Company(['status' => Company::STATUS_ACTIVE]),
             'agencies' => Agency::orderBy('name')->get(),
+            'staffUsers' => User::whereIn('role', [User::ROLE_ADMIN, User::ROLE_STAFF])
+                ->orderBy('name')->get(),
         ]);
     }
 
@@ -66,7 +72,7 @@ class CompanyController extends Controller
 
     public function show(Company $company): View
     {
-        $company->load(['agency', 'stores', 'users']);
+        $company->load(['agency', 'stores', 'users', 'responsibleUser']);
 
         return view('admin.companies.show', compact('company'));
     }
@@ -76,6 +82,8 @@ class CompanyController extends Controller
         return view('admin.companies.edit', [
             'company' => $company,
             'agencies' => Agency::orderBy('name')->get(),
+            'staffUsers' => User::whereIn('role', [User::ROLE_ADMIN, User::ROLE_STAFF])
+                ->orderBy('name')->get(),
         ]);
     }
 
@@ -159,6 +167,7 @@ class CompanyController extends Controller
     {
         $validated = $request->validate([
             'agency_id' => ['required', 'integer', 'exists:agencies,id'],
+            'responsible_user_id' => ['nullable', 'integer', 'exists:users,id'],
             'name' => ['required', 'string', 'max:120'],
             'kana' => ['nullable', 'string', 'max:120'],
             'contact_person_name' => ['required', 'string', 'max:60'],
