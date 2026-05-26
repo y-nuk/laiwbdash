@@ -75,6 +75,12 @@
                                 <i class="bi bi-qr-code"></i> アンケート
                             </a>
                         </li>
+                        <li class="nav-item mt-3 small text-muted px-3" style="font-size: 0.75rem;">外部連携</li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.gbp.*') ? 'active' : '' }}" href="{{ route('admin.gbp.connect') }}">
+                                <i class="bi bi-google"></i> GBP 連携
+                            </a>
+                        </li>
                     @else
                         {{-- クライアント側メニュー --}}
                         <li class="nav-item">

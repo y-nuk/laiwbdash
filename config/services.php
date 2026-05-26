@@ -35,4 +35,22 @@ return [
         ],
     ],
 
+    /*
+    | Google ビジネスプロフィール API（GBP）
+    | OAuth 認証用の Client ID / Secret は Google Cloud Console で発行
+    | プロジェクト=laiwebdash、Client ID は OneDrive 配下の JSON に保管
+    */
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI', env('APP_URL') . '/auth/google/callback'),
+        // GBP API スコープ
+        'scopes' => [
+            'openid',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/business.manage',
+        ],
+    ],
+
 ];

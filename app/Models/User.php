@@ -36,11 +36,18 @@ class User extends Authenticatable
         'invitation_sent_at',
         'invitation_accepted_at',
         'disabled_at',
+        'gbp_access_token',
+        'gbp_refresh_token',
+        'gbp_token_expires_at',
+        'gbp_account_email',
+        'gbp_account_info',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'gbp_access_token',
+        'gbp_refresh_token',
     ];
 
     protected function casts(): array
@@ -52,7 +59,19 @@ class User extends Authenticatable
             'invitation_sent_at' => 'datetime',
             'invitation_accepted_at' => 'datetime',
             'disabled_at' => 'datetime',
+            'gbp_token_expires_at' => 'datetime',
+            'gbp_account_info' => 'array',
         ];
+    }
+
+    public function hasGbpConnected(): bool
+    {
+        return $this->gbp_access_token !== null;
+    }
+
+    public function isGbpTokenExpired(): bool
+    {
+        return $this->gbp_token_expires_at && $this->gbp_token_expires_at->isPast();
     }
 
     public function isPendingInvitation(): bool

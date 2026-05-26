@@ -10,7 +10,9 @@ use App\Http\Controllers\Admin\StoreController as AdminStoreController;
 use App\Http\Controllers\Admin\StoreGbpInfoController as AdminStoreGbpInfoController;
 use App\Http\Controllers\Admin\StoreRankingController as AdminStoreRankingController;
 use App\Http\Controllers\Admin\AlertController as AdminAlertController;
+use App\Http\Controllers\Admin\GbpConnectController as AdminGbpConnectController;
 use App\Http\Controllers\Admin\SurveyController as AdminSurveyController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Public\SurveyController as PublicSurveyController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
@@ -88,6 +90,9 @@ Route::middleware(['auth', 'role:admin,staff'])
         Route::resource('surveys', AdminSurveyController::class);
         Route::get('surveys/{survey}/qr', [AdminSurveyController::class, 'qr'])->name('surveys.qr');
 
+        // GBP 連携（管理）
+        Route::get('gbp/connect', [AdminGbpConnectController::class, 'index'])->name('gbp.connect');
+
         // ユーザー管理（招待）
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
         Route::post('users/invite', [AdminUserController::class, 'invite'])->name('users.invite');
@@ -100,6 +105,13 @@ Route::middleware(['auth', 'role:admin,staff'])
 // ----- 招待 URL（パスワード設定）認証不要 -----
 Route::get('/invitation/{token}', [InvitationController::class, 'show'])->name('invitation.show');
 Route::post('/invitation/{token}', [InvitationController::class, 'accept'])->name('invitation.accept');
+
+// ----- Google OAuth (GBP 連携用) -----
+Route::middleware('auth')->prefix('auth/google')->name('auth.google.')->group(function () {
+    Route::get('redirect', [GoogleAuthController::class, 'redirect'])->name('redirect');
+    Route::get('callback', [GoogleAuthController::class, 'callback'])->name('callback');
+    Route::post('disconnect', [GoogleAuthController::class, 'disconnect'])->name('disconnect');
+});
 
 // ----- 公開ページ（プライバシー / 利用規約 / お問い合わせ） -----
 Route::prefix('/')->name('public.')->group(function () {
